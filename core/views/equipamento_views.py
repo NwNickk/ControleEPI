@@ -1,46 +1,43 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from core.models.equipamento_model import Equipamento
+from core.forms.equipamento_form import EquipamentoForm
+
 
 def criar_equipamento(request):
-    if request.method == 'GET':
-        equipamentos = Equipamento.objects.all()
-        return render(request, 'core/pages/equipamento.html', {'equipamentos': equipamentos})
-    elif request.method == 'POST':
-        nome = request.POST.get('nome')
-        tipo = request.POST.get('tipo')
-        codigo = request.POST.get('codigo')
-        validade = request.POST.get('validade')
-        estoque = request.POST.get('estoque')
+    equipamentos = Equipamento.objects.all()
 
-        equipamento = Equipamento(
-            nome=nome,
-            tipo=tipo,
-            codigo=codigo,
-            validade=validade,
-            estoque=estoque
-        )  
+    if request.method == 'POST':
+        form = EquipamentoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('criar_equipamento')
+    else:
+        form = EquipamentoForm()
 
-        equipamento.save() 
+    return render(request, 'core/pages/equipamento.html', {
+        'form': form,
+        'equipamentos': equipamentos
+    })
 
-        return redirect('criar_equipamento')
-    
+
 def editar_equipamento(request, id):
-    equipamento = Equipamento.objects.get(id=id)
+    equipamento = get_object_or_404(Equipamento, id=id)
 
-    if request.method == 'GET':
-        return render(request, 'core/pages/editar_equipamento.html', {'equipamento': equipamento})
-    elif request.method == 'POST':
-        equipamento.nome = request.POST.get('nome')
-        equipamento.tipo = request.POST.get('tipo')
-        equipamento.codigo = request.POST.get('codigo')
-        equipamento.validade = request.POST.get('validade')
-        equipamento.estoque = request.POST.get('estoque')
+    if request.method == 'POST':
+        form = EquipamentoForm(request.POST, instance=equipamento)
+        if form.is_valid():
+            form.save()
+            return redirect('criar_equipamento')
+    else:
+        form = EquipamentoForm(instance=equipamento)
 
-        equipamento.save() 
+    return render(request, 'core/pages/editar_equipamento.html', {
+        'form': form,
+        'equipamento': equipamento
+    })
 
-        return redirect('criar_equipamento')
 
 def deletar_equipamento(request, id):
-    equipamento = Equipamento.objects.get(id=id)
+    equipamento = get_object_or_404(Equipamento, id=id)
     equipamento.delete()
     return redirect('criar_equipamento')
