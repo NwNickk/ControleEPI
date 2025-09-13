@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from .models import Colaborador
+from core.models.colaborador_model import Colaborador
+
+def home(request):
+    return render(request, 'core/pages/home.html')
 
 def criar_colaborador(request):
     if request.method == 'GET':
         colaboradores = Colaborador.objects.all()
-        return render(request, 'core/pages/home.html', {'colaboradores': colaboradores})
+        return render(request, 'core/pages/colaborador.html', {'colaboradores': colaboradores})
     elif request.method == 'POST':
         nome = request.POST.get('nome')
         email = request.POST.get('email')

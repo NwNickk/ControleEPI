@@ -1,0 +1,126 @@
+{% load static %}
+
+{% include 'core/partials/head.html' %}
+
+<body>
+
+    {% include 'core/partials/header.html' %}
+
+    <div class="container">
+        <h2 class="mt-4">Cadastrar Equipamento</h2>
+        <form action="{% url 'criar_equipamento' %}" method="POST" class="mb-5">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" name="nome" id="nome" class="form-control" placeholder="Digite o nome aqui">
+          </div>
+  
+          <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo:</label>
+            <input type="text" name="tipo" id="tipo" class="form-control" placeholder="Digite o tipo aqui">
+          </div>
+  
+          <div class="mb-3">
+            <label for="codigo" class="form-label">Código:</label>
+            <input type="text" name="codigo" id="codigo" class="form-control" placeholder="Digite o código aqui">
+          </div>
+
+          <div class="mb-3">
+            <label for="validade" class="form-label">Validade:</label>
+            <input type="date" name="validade" id="validade" class="form-control" placeholder="Digite a validade aqui">
+          </div>
+
+          <div class="mb-3">
+            <label for="estoque" class="form-label">Estoque:</label>
+            <input type="number" name="estoque" id="estoque" class="form-control" placeholder="Digite a quantidade em estoque aqui">
+          </div>
+
+          <button type="submit" class="btn btn-success">Cadastrar</button>
+        </form>
+      </div>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center flex-grow-1">Lista de Equipamentos</h2>
+    </div>
+
+    <div class="search-container mb-4">
+        <form action="" class="search-form d-flex">
+            <input type="search" class="search-input" name="search" placeholder="Pesquisar pelo nome">
+            <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+            </button>
+        </form>
+        <a href="{% url 'criar_equipamento' %}" class="btn btn-success ms-3">
+             <i class="fas fa-plus"></i> Cadastrar
+        </a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Código</th>
+                <th>Validade</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+              {% for i in equipamentos %}
+            <tr>
+              <form action="{% url 'editar_equipamento' i.id %}" method="POST">
+                {% csrf_token %}
+                <td><input type="text" name="nome" value="{{ i.nome }}" class="form-control"></td>
+                <td><input type="text" name="tipo" value="{{ i.tipo }}" class="form-control"></td>
+                <td><input type="text" name="codigo" value="{{ i.codigo }}" class="form-control"></td>
+                <td><input type="date" name="validade" value="{{ i.validade|date:'Y-m-d' }}" class="form-control"></td>
+                <td><input type="number" name="estoque" value="{{ i.estoque }}" class="form-control"></td>
+                <td>
+                  <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                  
+                  <!-- Botão que abre o modal -->
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDelete{{ i.id }}">
+                      Excluir
+                    </button>
+  
+                    <!-- Modal -->
+                    <div class="modal fade" id="confirmDelete{{ i.id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Remover Equipamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                          </div>
+                          <div class="modal-body">
+                            Tem certeza que deseja remover <strong>{{ i.nome }}</strong>?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="{% url 'deletar_equipamento' i.id %}" class="btn btn-danger">Remover</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </td>
+              </form>
+            </tr>
+            {% empty %}
+              <tr>
+                  <td colspan="6" class="text-center">Nenhum equipamento encontrado.</td>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% include 'core/partials/footer.html' %}
+
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+      crossorigin="anonymous">
+    </script>
+
+</body>
