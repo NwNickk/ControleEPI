@@ -1,0 +1,31 @@
+{% extends 'account/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <form method="POST" class="login-form">
+        {% csrf_token %}
+        <h2 class="login-title">Login</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="login-error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Digite seu nome de usuário" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Digite sua senha" required>
+
+        <button type="submit" class="login-btn">Sign In</button>
+
+        <div class="login-links">
+            <a href="#">Forgot password?</a>
+            <a href="#">Sign Up</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

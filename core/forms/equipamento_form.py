@@ -12,3 +12,4 @@ class EquipamentoForm(forms.ModelForm):
             'codigo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite o código aqui'}),
             'estoque': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Digite a quantidade em estoque'}),
         }
+ 

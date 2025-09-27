@@ -1,0 +1,38 @@
+{% extends 'global/base.html' %}
+
+{% load static %}
+
+{% block title %}Empréstimos -{% endblock %}
+{% block content %}
+
+  <div class="container mt-4">
+    <h2>Editar Empréstimo</h2>
+
+    <form action="{% url 'editar_emprestimo' emprestimo.id %}" method="POST" class="mb-5">
+      {% csrf_token %}
+
+        <div class="mb-3">
+            {{ form.quantidade.label_tag }}
+            {{ form.quantidade }}
+            {% if form.quantidade.errors %}
+              <div class="text-danger">
+                {{ form.quantidade.errors }}
+              </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.data_devolucao.label_tag }}
+            {{ form.data_devolucao }}
+            {% if form.data_devolucao.errors %}
+              <div class="text-danger">
+                {{ form.data_devolucao.errors }}
+              </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{% url 'criar_emprestimo' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

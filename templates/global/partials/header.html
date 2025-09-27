@@ -8,17 +8,20 @@
     </button>
 
     <!-- Nome do sistema no centro -->
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+    <a class="navbar-brand mx-auto d-flex align-items-center" href="{% url 'home' %}">
       <i class="fa-solid fa-wrench me-2"></i>
       <i class="fa-solid fa-helmet-safety me-2"></i>
       Sistema de Controle de EPI 
       <i class="fa-solid fa-person-digging ms-2"></i>
     </a>
 
-    <!-- Ícone de login no canto direito -->
-    <a class="nav-link text-white" href="#">
-      <i class="fas fa-user"></i>
-    </a>
+    <!-- Ações à direita -->
+    <div class="d-flex align-items-center">
+      <!-- Ícone de login -->
+      <a class="nav-link text-white" href="#">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -35,6 +38,8 @@
       {% comment %} <li class="nav-item"><a class="nav-link text-white" href="{% url 'colaborador' %}">👷 Colaboradores</a></li> {% endcomment %}
       <li class="nav-item"><a class="nav-link text-white" href="{% url 'criar_equipamento' %}">➕ Cadastrar Equipamento</a></li>
       {% comment %} <li class="nav-item"><a class="nav-link text-white" href="{% url 'equipamento' %}">🛠️ Equipamentos</a></li> {% endcomment %}
+      <li class="nav-item"><a class="nav-link text-white" href="{% url 'criar_emprestimo' %}">➕ Cadastrar Empréstimo</a></li>
+      {% comment %} <li class="nav-item"><a class="nav-link text-white" href="{% url 'emprestimo' %}">📋 Empréstimos</a></li> {% endcomment %}
     </ul>
   </div>
 </div>

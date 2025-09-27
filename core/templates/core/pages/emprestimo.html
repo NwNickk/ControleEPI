@@ -1,0 +1,121 @@
+{% extends 'global/base.html' %}
+
+{% load static %}
+{% block title %}Empréstimos -{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h2 class="mt-4">Cadastrar Empréstimo</h2>
+        <form action="{% url 'criar_emprestimo' %}" method="POST" class="mb-5">
+        {% csrf_token %}
+    
+        <div class="mb-3">
+            {{ form.equipamento.label_tag }}
+            {{ form.equipamento }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.colaborador.label_tag }}
+            {{ form.colaborador }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.quantidade.label_tag }}
+            {{ form.quantidade }}
+            {% if form.quantidade.errors %}
+              <div class="text-danger">
+                {{ form.quantidade.errors }}
+              </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        </form>
+    </div>
+
+    <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-center flex-grow-1">Lista de Equipamentos</h2>
+    </div>
+
+    <div class="search-container mb-4">
+      <form action="{% url 'listar_emprestimos' %}" method="get" class="search-form d-flex">
+      <input
+        type="search"
+        class="search-input"
+        name="search"
+        placeholder="Pesquisar pelo nome do colaborador"
+        value="{{ search_query }}"
+        autocomplete="off"
+      >
+      <button type="submit" class="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+      </form>
+      <a href="{% url 'criar_emprestimo' %}" class="btn btn-success ms-3">
+        <i class="fas fa-plus"></i> Cadastrar
+      </a>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+            <th>Equipamento</th>
+            <th>Colaborador</th>
+            <th>Quantidade</th>
+            <th>Data do Empréstimo</th>
+            <th>Última Atualização</th>
+            <th>Status</th>
+            <th>Data de Devolução</th>
+            <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in emprestimos %}
+        <tr>
+            <td>{{ i.equipamento }}</td>
+            <td>{{ i.colaborador }}</td>
+            <td>{{ i.quantidade }}</td>
+            <td>{{ i.data_emprestimo|date:"d/m/Y" }}</td>
+            <td>{{ i.atualizado_em|date:"d/m/Y" }}</td>
+            <td>{{ i.get_status_display }}</td>
+            <td>{{ i.data_devolucao|date:"d/m/Y" }}</td>
+          <td>
+            <a href="{% url 'editar_emprestimo' i.id %}" class="btn btn-primary btn-sm">Editar</a>
+
+            <!-- Botão que abre o modal -->
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+              data-bs-target="#confirmDelete{{ i.id }}">
+              Excluir
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDelete{{ i.id }}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Remover Empréstimo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                  </div>
+                  <div class="modal-body">
+                    Tem certeza que deseja excluir esse empréstimo?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="{% url 'deletar_emprestimo' i.id %}" class="btn btn-danger">Remover</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">Nenhum emprestimo encontrado.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    
+{% endblock %}

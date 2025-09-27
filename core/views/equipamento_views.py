@@ -41,3 +41,15 @@ def deletar_equipamento(request, id):
     equipamento = get_object_or_404(Equipamento, id=id)
     equipamento.delete()
     return redirect('criar_equipamento')
+
+def listar_equipamentos(request):
+    search_query = request.GET.get('search', '')
+    if search_query:
+        equipamentos = Equipamento.objects.filter(nome__icontains=search_query)
+    else:
+        equipamentos = Equipamento.objects.all()
+
+    return render(request, 'core/pages/equipamento.html', {
+        'equipamentos': equipamentos,
+        'search_query': search_query
+    })

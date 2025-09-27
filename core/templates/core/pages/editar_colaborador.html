@@ -1,0 +1,42 @@
+{% extends 'global/base.html' %}
+
+{% load static %}
+
+{% block title %}Colaboradores -{% endblock %}
+{% block content %}
+
+  <div class="container mt-4">
+    <h2>Editar Colaborador</h2>
+
+    <form action="{% url 'editar_colaborador' colaborador.id %}" method="POST" class="mb-5">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        {{ form.nome.label_tag }}
+        {{ form.nome }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.telefone.label_tag }}
+        {{ form.telefone }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.status.label_tag }}
+        {{ form.status }}
+
+      <div class="mb-3">
+        {{ form.cargo.label_tag }}
+        {{ form.cargo }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+      <a href="{% url 'criar_colaborador' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}
