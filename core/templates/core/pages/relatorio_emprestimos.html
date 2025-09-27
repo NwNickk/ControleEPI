@@ -1,0 +1,67 @@
+{% extends 'global/base.html' %}
+
+{% load static %}
+{% block title %}Relatórios -{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="mb-4"> Relatório de Empréstimos</h2>
+
+  <!-- Filtro -->
+  <form method="GET" class="card p-4 bg-secondary mb-4">
+    <div class="row">
+      <div class="col-md-4">
+        <label class="form-label">Equipamento</label>
+        <input type="text" name="equipamento" value="{{ equipamento }}" class="form-control" placeholder="Nome do equipamento">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Colaborador</label>
+        <input type="text" name="colaborador" value="{{ colaborador }}" class="form-control" placeholder="Nome do colaborador">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select">
+          <option value="">-- Todos --</option>
+          <option value="emprestado" {% if status == "emprestado" %}selected{% endif %}>Emprestado</option>
+          <option value="fornecido" {% if status == "fornecido" %}selected{% endif %}>Fornecido</option>
+          <option value="devolvido" {% if status == "devolvido" %}selected{% endif %}>Devolvido</option>
+          <option value="danificado" {% if status == "danificado" %}selected{% endif %}>Danificado</option>
+          <option value="perdido" {% if status == "perdido" %}selected{% endif %}>Perdido</option>
+        </select>
+      </div>
+    </div>
+    <div class="text-end mt-3">
+      <button type="submit" class="btn btn-light">Pesquisar</button>
+    </div>
+  </form>
+
+  <!-- Lista de resultados -->
+  <table class="table table-dark table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Equipamento</th>
+        <th>Colaborador</th>
+        <th>Quantidade</th>
+        <th>Status</th>
+        <th>Data Empréstimo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for emprestimo in emprestimos %}
+        <tr>
+          <td>{{ emprestimo.equipamento.nome }}</td>
+          <td>{{ emprestimo.colaborador.nome }}</td>
+          <td>{{ emprestimo.quantidade }}</td>
+          <td>{{ emprestimo.get_status_display }}</td>
+          <td>{{ emprestimo.data_emprestimo }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">Nenhum empréstimo encontrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -22,14 +22,48 @@
         </div>
 
         <div class="mb-3">
-            {{ form.data_devolucao.label_tag }}
-            {{ form.data_devolucao }}
-            {% if form.data_devolucao.errors %}
+            {{ form.data_prevista_devolucao.label_tag }}
+            {{ form.data_prevista_devolucao }}
+            {% if form.data_prevista_devolucao.errors %}
               <div class="text-danger">
-                {{ form.data_devolucao.errors }}
+                {{ form.data_prevista_devolucao.errors }}
               </div>
             {% endif %}
         </div>
+
+        <div class="mb-3">
+          {{ form.status.label_tag }} {{ form.status }}
+        </div>
+        
+        <div class="mb-3" id="dataDevolucaoField" style="display:none;">
+          {{ form.data_devolucao.label_tag }} {{ form.data_devolucao }}
+        </div>
+        
+        <div class="mb-3" id="observacaoField" style="display:none;">
+          {{ form.observacao.label_tag }} {{ form.observacao }}
+        </div>
+        
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const statusField = document.querySelector("#id_status");
+            const dataDevolucaoField = document.querySelector("#dataDevolucaoField");
+            const observacaoField = document.querySelector("#observacaoField");
+        
+            function toggleExtraFields() {
+              const value = statusField.value;
+              if (["devolvido", "danificado", "perdido"].includes(value)) {
+                dataDevolucaoField.style.display = "block";
+                observacaoField.style.display = "block";
+              } else {
+                dataDevolucaoField.style.display = "none";
+                observacaoField.style.display = "none";
+              }
+            }
+        
+            statusField.addEventListener("change", toggleExtraFields);
+            toggleExtraFields();
+          });
+        </script>
 
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         <a href="{% url 'criar_emprestimo' %}" class="btn btn-secondary">Cancelar</a>

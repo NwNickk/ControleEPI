@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from core.models.emprestimo_model import Emprestimo
 from core.forms.emprestimo_form import EmprestimoForm, UpdateEmprestimoForm
+from django.contrib import messages
 
 def criar_emprestimo(request):
     emprestimos = Emprestimo.objects.all()
@@ -9,6 +10,7 @@ def criar_emprestimo(request):
         form = EmprestimoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Empréstimo cadastrado com sucesso!")
             return redirect('criar_emprestimo')
     else:
         form = EmprestimoForm()

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 #from django.contrib.auth.decorators import login_required
 from core.models.colaborador_model import Colaborador
 from core.forms.colaborador_form import ColaboradorForm
+from django.contrib import messages
 
 #@login_required
 def home(request):
@@ -37,6 +38,7 @@ def criar_colaborador(request):
         form = ColaboradorForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Colaborador cadastrado com sucesso!")
             return redirect('criar_colaborador')
     else:
         form = ColaboradorForm()

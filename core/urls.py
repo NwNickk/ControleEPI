@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import colaborador_views, equipamento_views, emprestimo_views
+from .views import colaborador_views, equipamento_views, emprestimo_views, relatorio_emprestimos_views
 
 urlpatterns = [
     path('', colaborador_views.home, name='home'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('emprestimos/<int:id>/editar/', emprestimo_views.editar_emprestimo, name='editar_emprestimo'),
     path('emprestimos/<int:id>/deletar/', emprestimo_views.deletar_emprestimo, name='deletar_emprestimo'),
     path('emprestimos/listar/', emprestimo_views.listar_emprestimos, name='listar_emprestimos'),
+    path('relatorio/emprestimos/', relatorio_emprestimos_views.relatorio_emprestimos, name='relatorio_emprestimos'),
 ]

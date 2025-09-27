@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from core.models.equipamento_model import Equipamento
 from core.forms.equipamento_form import EquipamentoForm
+from django.contrib import messages
 
 
 def criar_equipamento(request):
@@ -10,6 +11,7 @@ def criar_equipamento(request):
         form = EquipamentoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Equipamento cadastrado com sucesso!")
             return redirect('criar_equipamento')
     else:
         form = EquipamentoForm()
